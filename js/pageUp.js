@@ -1,0 +1,2 @@
+const botao=document.getElementById("topButton")
+window.addEventListener("scroll",function(event){if(window.scrollY<document.getElementById('top').clientHeight){botao.classList.remove('pageUp')}else{botao.classList.add('pageUp')}});

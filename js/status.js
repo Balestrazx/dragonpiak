@@ -1,0 +1,8 @@
+const Dataplayers=document.getElementById('players-status');const Datadownloads=document.getElementById('downloads-status');const Dataacessos=document.getElementById('acessos-status');function updateStatus(){fetch('https://dragonquestmonster.com/api/status',{method:'get',headers:{'Content-Type':'application/json'},}).then(response=>response.json()).then(result=>{const{players,downloads,acessos}=result;let data=[]
+if(players!==Number(Dataplayers.textContent.replace('.',''))||0)data.push(increment((Number(Dataplayers.textContent)||0),players,Dataplayers,(Number(Dataplayers.textContent)||0)>players?'down':'up'))
+if(downloads!==Number(Datadownloads.textContent.replace('.',''))||0)data.push(increment((Number(Datadownloads.textContent)||0),downloads,Datadownloads,(Number(Datadownloads.textContent)||0)>downloads?'down':'up'))
+if(acessos!==Number(Dataacessos.textContent.replace('.',''))||0)data.push(increment((Number(Dataacessos.textContent)||0),acessos,Dataacessos,(Number(Dataacessos.textContent)||0)>acessos?'down':'up'))
+return Promise.all(data);}).then(()=>{setTimeout(()=>updateStatus(),10_000);});}
+function increment(i,max,element,direction){return new Promise(resolve=>{if(max<1000)i=Math.round(max/2);function step(){if((direction==='up'&&i>=max)||(direction==='down'&&i<=max)){element.innerText=Math.round(max).toLocaleString();resolve();return;}
+const divisor=max>1000?100:1;element.innerText=Math.round(i).toLocaleString();i=direction==='up'?i+(max>1000?max/divisor:1):i-(max>1000?max/divisor:1);setTimeout(step,10);}
+step();});}
